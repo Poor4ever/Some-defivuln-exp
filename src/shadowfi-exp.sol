@@ -39,10 +39,10 @@ contract test is DSTest{
     }
     function testExploit() public {
         exploit = new Exploit{value: 0.001 ether}();
-        verfiy();
+        verify();
     }
 
-    function verfiy() public {
+    function verify() public {
         console.log("============== Attack profit: ~", IERC20(0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c).balanceOf(address(exploit)) / 1e18 ,"WBNB", "==============");
     }
 }
