@@ -4,6 +4,6 @@ out = 'out'
 libs = ['lib']
 remappings = ['forge-std/=lib/forge-std/src/']
 
-rpc_endpoints = {  bsc = "https://bsc-mainnet.nodereal.io/v1/youapikey" }
+rpc_endpoints = { mainnet="https://eth-mainnet.nodereal.io/v1/youapikey", bsc = "https://bsc-mainnet.nodereal.io/v1/youapikey" }
 
 # See more config options https://github.com/gakonst/foundry/tree/master/config
