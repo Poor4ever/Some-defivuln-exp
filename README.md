@@ -37,7 +37,7 @@ Attack TX:https://bscscan.com/tx/0xe30dc75253eecec3377e03c532aa41bae1c26909bc861
 ### POC 复现漏洞
 
 ```
-forge test --contracts "./src/shadowfi.sol" arbitrage_contract-exp.sol -vvv
+forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
 ```
 
 攻击获利: ~ 25912 USDT / ~ 327 WBNB / ~ 5160 BUSD / ~ 0.014 BTCB / ~ 0.097 ETH
