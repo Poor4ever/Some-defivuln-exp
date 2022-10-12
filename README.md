@@ -32,9 +32,9 @@ Attack TX:https://bscscan.com/tx/0xe30dc75253eecec3377e03c532aa41bae1c26909bc861
 
 套利合约闪电贷回调函数 `pancakeCall` 没有限制仅 Pair 合约可调用.
 
-[arbitrage_contract-exp.sol](https://github.com/Poor4ever/Some-Defivlun-Exp/blob/main/src/arbitrage_contract-exp.sol) 
-
 ### POC 复现漏洞
+
+[arbitrage_contract-exp.sol](https://github.com/Poor4ever/Some-Defivlun-Exp/blob/main/src/arbitrage_contract-exp.sol) 
 
 ```
 forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
@@ -43,3 +43,32 @@ forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
 攻击获利: ~ 25912 USDT / ~ 327 WBNB / ~ 5160 BUSD / ~ 0.014 BTCB / ~ 0.097 ETH
 
 Attack TX: https://bscscan.com/tx/0xd48758ef48d113b78a09f7b8c7cd663ad79e9965852e872fdfc92234c3e598d2
+
+
+
+## Temple DAO
+
+### 漏洞原因
+
+StaxLPStaking 合约 migrateStake() 函数 (1)没有访问控制,任意 EOA 或 外部账户可以随意调用,(2) 函数 oldStaking 可以任意传参,传入自己恶意部署的合约地址,凭空获得 LP Token. 
+
+```SOLIDITY
+    function migrateStake(address oldStaking, uint256 amount) external {
+        StaxLPStaking(oldStaking).migrateWithdraw(msg.sender, amount);
+        _applyStake(msg.sender, amount);
+    }
+```
+
+### POC复现漏洞
+
+[templedao-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/templedao-exp.sol)
+
+```
+forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
+```
+
+攻击获利: ~ 2 M USDC
+
+Attack_tx: https://etherscan.io/tx/0x8c3f442fc6d640a6ff3ea0b12be64f1d4609ea94edd2966f42c01cd9bdcf04b5
+
+Remove liquidity and sale_tx: https://etherscan.io/tx/0x4b119a4f4ba1ad483e9851973719f310527b43f3fcc827b6d52db9f4c1ddb6a2
