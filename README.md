@@ -50,7 +50,7 @@ Attack TX: https://bscscan.com/tx/0xd48758ef48d113b78a09f7b8c7cd663ad79e9965852e
 
 ### 漏洞原因
 
-StaxLPStaking 合约 migrateStake() 函数 (1)没有访问控制,任意 EOA 或 外部账户可以随意调用,(2) 函数 oldStaking 可以任意传参,传入自己恶意部署的合约地址,凭空获得 LP Token. 
+StaxLPStaking 合约 migrateStake() 函数 (1)没有访问控制,任意 EOA账户 或 可以随意调用,(2) 函数 oldStaking 可以任意传参,传入自己恶意部署的合约地址,凭空获得 LP Token. 
 
 ```SOLIDITY
     function migrateStake(address oldStaking, uint256 amount) external {
