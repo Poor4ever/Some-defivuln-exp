@@ -126,6 +126,13 @@ Attack TX:https://bscscan.com/tx/0xe30dc75253eecec3377e03c532aa41bae1c26909bc861
         require(payable(msg.sender).send((price * 190) / 100));
         require(payable(withdrawAddress).send((price * 10) / 100));}
     }
+    
+    function _getRandom() private returns(bool) {
+        uint256 random = uint256(keccak256(abi.encodePacked(block.difficulty, block.timestamp)));
+        uint256 rand = random%2;
+        if(rand == 0){return lucky = false;}
+        else         {return lucky = true;}
+    }
 ```
 
 ### POC 复现漏洞
