@@ -2,7 +2,7 @@
 
 ### 漏洞原因
 
-每次 transfer() 转账都会燃烧池子里 0.1% 的 HEALTH Token,多次调用 transfer() 消耗池子里的 HEALTH Token,最后再交换消耗前闪电贷借入WBNB换的 HEALTH Token 售出为WBNB获利
+每次 transfer() 转账都会燃烧池子里 0.1% 的 HEALTH Token,多次调用 transfer() 消耗池子里的 HEALTH Token,最后再交换消耗前闪电贷借入WBNB换的 HEALTH Token,售出为 WBNB 获利
 
 ```SOLIDITY
 function _transfer(address from, address to, uint256 value) private {
@@ -22,7 +22,7 @@ function _transfer(address from, address to, uint256 value) private {
 forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
 ```
 
-攻击获利: ~ 16wbnb
+攻击获利: ~ 16 WBNB
 
 Attack_tx: https://bscscan.com/tx/0xae8ca9dc8258ae32899fe641985739c3fa53ab1f603973ac74b424e165c66ccf
 
