@@ -19,12 +19,14 @@ function _transfer(address from, address to, uint256 value) private {
 [HEALTH-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/HEALTH-exp.sol)
 
 ```
-forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
+forge test --contracts "./src/HEALTH-exp.sol" -vvv
 ```
 
 攻击获利: ~ 16 WBNB
 
 Attack_tx: https://bscscan.com/tx/0xae8ca9dc8258ae32899fe641985739c3fa53ab1f603973ac74b424e165c66ccf
+
+
 
 ## Temple DAO
 
@@ -53,6 +55,8 @@ Attack_tx: https://etherscan.io/tx/0x8c3f442fc6d640a6ff3ea0b12be64f1d4609ea94edd
 
 Remove liquidity and sale_tx: https://etherscan.io/tx/0x4b119a4f4ba1ad483e9851973719f310527b43f3fcc827b6d52db9f4c1ddb6a2
 
+
+
 ## Arbitrage contract
 
 ### 漏洞原因
@@ -70,6 +74,8 @@ forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
 攻击获利: ~ 25912 USDT / ~ 327 WBNB / ~ 5160 BUSD / ~ 0.014 BTCB / ~ 0.097 ETH
 
 Attack TX: https://bscscan.com/tx/0xd48758ef48d113b78a09f7b8c7cd663ad79e9965852e872fdfc92234c3e598d2
+
+
 
 ## ShadowFi
 
@@ -99,7 +105,59 @@ Attack TX:https://bscscan.com/tx/0xe30dc75253eecec3377e03c532aa41bae1c26909bc861
 
 
 
+## luckytiger
+
+### 漏洞原因
+
+糟糕的随机源取自链上, 遇到不想要的结果让交易回滚
+
+```solidity
+     function _basicTransfer(address sender, address recipient, uint256 value) internal returns (bool) {
+        balanceOf[sender] -= value;
+        balanceOf[recipient] += value;
+        emit Transfer(sender, recipient, value);
+        return true;
+    }
+```
+
+### POC 复现漏洞
+
+[luckytiger-exp.sol](https://github.com/Poor4ever/Some-Defivlun-Exp/blob/main/src/luckytiger-exp.sol) 
+
+```
+forge test --contracts "./src/luckytiger-exp.sol.sol" -vvv
+```
+
+攻击获利: 忽略不计
+
+Attack TX:https://etherscan.io/tx/0x804ff3801542bff435a5d733f4d8a93a535d73d0de0f843fd979756a7eab26af
 
 
 
+## QIXI
+
+### 漏洞原因
+
+Solidity 0.8 版本以下没有溢出检测，从 QIXI -BNB LP 池子闪电贷借空池子里 BNB,QIXI Token 存在溢出, _Transfer 没有对转账的发送钱包余额检查,任意调用转账时在 _basicTransfer 里下溢获得大量 QIXI Token,闪电贷回调里转 QIXI Token 到 LP 池子,满足 K 值检查,不用偿还 BNB.
+
+```solidity
+     function _basicTransfer(address sender, address recipient, uint256 value) internal returns (bool) {
+        balanceOf[sender] -= value;
+        balanceOf[recipient] += value;
+        emit Transfer(sender, recipient, value);
+        return true;
+    }
+```
+
+### POC 复现漏洞
+
+[QIXI-exp.sol](https://github.com/Poor4ever/Some-Defivlun-Exp/blob/main/src/QIXI-exp.sol) 
+
+```
+forge test --contracts "./src/QIXI-exp.sol" -vvv
+```
+
+攻击获利: ~ 6 WBNB
+
+Attack TX:https://bscscan.com/tx/0x16be4fe1c8fcab578fcb999cbc40885ba0d4ba9f3782a67bd215fb56dc579062
 
