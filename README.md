@@ -112,11 +112,19 @@ Attack TX:https://bscscan.com/tx/0xe30dc75253eecec3377e03c532aa41bae1c26909bc861
 糟糕的随机源取自链上, 遇到不想要的结果让交易回滚
 
 ```solidity
-     function _basicTransfer(address sender, address recipient, uint256 value) internal returns (bool) {
-        balanceOf[sender] -= value;
-        balanceOf[recipient] += value;
-        emit Transfer(sender, recipient, value);
-        return true;
+    function publicMint() public payable {
+        uint256 supply = totalSupply();
+        require(!pauseMint, "Pause mint");
+        require(msg.value >= price, "Ether sent is not correct");
+        require(supply + 1 <= maxTotal, "Exceeds maximum supply");
+        _safeMint(msg.sender, 1);
+        bool randLucky = _getRandom();
+        uint256 tokenId = _totalMinted();
+        emit NEWLucky(tokenId, randLucky);
+        tokenId_luckys[tokenId] = lucky;
+        if(tokenId_luckys[tokenId] == true){
+        require(payable(msg.sender).send((price * 190) / 100));
+        require(payable(withdrawAddress).send((price * 10) / 100));}
     }
 ```
 
