@@ -6,11 +6,11 @@
 
 ```SOLIDITY
 function _transfer(address from, address to, uint256 value) private {
-	//..
-	uint256 burnValue = _balances[uniswapV2Pair].mul(burnFee).div(1000);
+    //..
+    uint256 burnValue = _balances[uniswapV2Pair].mul(burnFee).div(1000);
     _balances[uniswapV2Pair] = _balances[uniswapV2Pair].sub(burnValue);
     _balances[_burnAddress] = _balances[_burnAddress].add(burnValue);
-	//..
+    //..
 }
 ```
 
