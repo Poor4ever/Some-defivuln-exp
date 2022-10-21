@@ -2,7 +2,7 @@
 
 ### 漏洞原因
 
-每次 transfer() 转账都会燃烧池子里 0.1% 的 HEALTH Token,多次调用 transfer() 消耗池子里的 HEALTH Token,最后再交换消耗前闪电贷借入WBNB换的 HEALTH Token,售出为 WBNB 获利
+每次 transfer() 转账都会燃烧池子里 0.1% 的 HEALTH Token,多次调用 transfer() 消耗池子里的 HEALTH Token,最后再交换消耗前闪电贷借入WBNB 换的 HEALTH Token,售出为 WBNB 获利.
 
 ```SOLIDITY
 function _transfer(address from, address to, uint256 value) private {
