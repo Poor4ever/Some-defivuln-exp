@@ -46,7 +46,7 @@ StaxLPStaking 合约 migrateStake() 函数 (1)没有访问控制,任意 EOA 账�
 [templedao-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/templedao-exp.sol)
 
 ```
-forge test --contracts "./src/arbitrage_contract-exp.sol" -vvv
+forge test --contracts "./src/templedao-exp.sol -vvv
 ```
 
 攻击获利: ~ 2 M USDC
