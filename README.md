@@ -15,7 +15,7 @@
 
 ### POC复现漏洞
 
-[OlympusDAO.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/OlympusDAO-exp.sol)
+[OlympusDAO-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/OlympusDAO-exp.sol)
 
 ```
 forge test --contracts "./src/OlympusDAO-exp.sol" -vvv
