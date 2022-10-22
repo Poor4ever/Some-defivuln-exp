@@ -1,3 +1,32 @@
+## OlympusDAO
+
+### 漏洞原因
+
+ bond BondFixedExpiryTeller.sol 合约 redeem() 函数对传入的 token_ 没有校验, 传入攻击者自己部署的地址, 函数内的 expiry()/burn() 函数都走攻击者恶意构造的逻辑保证正常执行，而 underlying() 返回 OHM 地址进行 transfer().
+
+```SOLIDITY
+    function redeem(ERC20BondToken token_, uint256 amount_) external override nonReentrant {
+        if (uint48(block.timestamp) < token_.expiry())
+            revert Teller_TokenNotMatured(token_.expiry());
+        token_.burn(msg.sender, amount_);
+        token_.underlying().transfer(msg.sender, amount_);
+    }
+```
+
+### POC复现漏洞
+
+[OlympusDAO.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/OlympusDAO-exp.sol)
+
+```
+forge test --contracts "./src/OlympusDAO-exp.sol" -vvv
+```
+
+攻击获利: ~ 30,437 OHM
+
+Attack_tx: https://etherscan.io/tx/0x3ed75df83d907412af874b7998d911fdf990704da87c2b1a8cf95ca5d21504cf
+
+
+
 ## HEALTH
 
 ### 漏洞原因
@@ -5,13 +34,13 @@
 每次 transfer() 转账都会燃烧池子里 0.1% 的 HEALTH Token,多次调用 transfer() 消耗池子里的 HEALTH Token,最后再交换消耗前闪电贷借入WBNB 换的 HEALTH Token,售出为 WBNB 获利.
 
 ```SOLIDITY
-function _transfer(address from, address to, uint256 value) private {
-    //..
-    uint256 burnValue = _balances[uniswapV2Pair].mul(burnFee).div(1000);
-    _balances[uniswapV2Pair] = _balances[uniswapV2Pair].sub(burnValue);
-    _balances[_burnAddress] = _balances[_burnAddress].add(burnValue);
-    //..
-}
+    function _transfer(address from, address to, uint256 value) private {
+        //..
+        uint256 burnValue = _balances[uniswapV2Pair].mul(burnFee).div(1000);
+        _balances[uniswapV2Pair] = _balances[uniswapV2Pair].sub(burnValue);
+        _balances[_burnAddress] = _balances[_burnAddress].add(burnValue);
+        //..
+    }
 ```
 
 ### POC复现漏洞
