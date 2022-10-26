@@ -36,7 +36,7 @@ ULME Token::buyMiner() public 函数, 可恶意用授权 USDT 的地址, 去兑�
 
 ### POC复现漏洞
 
-[ULME-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/OlympusDAO-exp.sol)
+[ULME-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/ULME-exp.sol)
 
 ```
 forge test --contracts "./src/ULME-exp.sol" -vvv
