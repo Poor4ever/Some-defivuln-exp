@@ -12,7 +12,7 @@ ULME Token::buyMiner() public 函数, 可恶意用授权 USDT 的地址, 去兑�
 
 (2) USDT 兑换成 ULME
 
-(3) 调用 ULME Token contract::buyMiner(), 传入事先收集的授权 USDT 给 ULME Token 合约的地址购买 ULME 拉高币价
+(3) 调用 ULME Token contract::buyMiner(), 传入事先收集的授权 USDT 给 ULME Token 合约的地址列表,去购买 ULME 代币,拉高币价
 
 (4) 出售 ULME 获利
 
@@ -42,7 +42,7 @@ ULME Token::buyMiner() public 函数, 可恶意用授权 USDT 的地址, 去兑�
 forge test --contracts "./src/ULME-exp.sol" -vvv
 ```
 
-攻击获利: ~ 30,437 OHM
+攻击获利: ~ 50,646 BUSD
 
 attack_tx:
 https://etherscan.io/tx/0xdb9a13bc970b97824e082782e838bdff0b76b30d268f1d66aac507f1d43ff4ed
