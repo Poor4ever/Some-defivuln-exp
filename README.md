@@ -1,5 +1,59 @@
 ![](cover.png)
 
+
+
+## **anyswapRouterV4**
+
+anyswap 已更名为 Multichain
+
+### 漏洞原因
+
+anyswapRouterV4::anySwapOutUnderlyingWithPermit()
+
+[查看 anyswapRouterV4.sol 完整代码](https://gist.github.com/zhaojun-sh/0df8429d52ae7d71b6d1ff5e8f0050dc#file-anyswaprouterv4-sol-L245-L261)
+
+首先对传入的 Token 地址没有校验, 攻击者恶意部署的返回受影响的 Token 核心利用点是 token 不存在 permit() 函数而被调用, 但是存在 fallback , 交给 fallback 处理, 随意传入的  v r s 无从校验,交易不会失败, 而受影响的是前端默认 approve 最大可用数量代币给合约,而不是按需授权数量的授权的用户.
+
+```solidity
+    function anySwapOutUnderlyingWithPermit(
+        address from,
+        address token,
+        address to,
+        uint amount,
+        uint deadline,
+        uint8 v,
+        bytes32 r,
+        bytes32 s,
+        uint toChainID
+    ) external {
+        address _underlying = AnyswapV1ERC20(token).underlying();
+        IERC20(_underlying).permit(from, address(this), amount, deadline, v, r, s);
+        TransferHelper.safeTransferFrom(_underlying, from, token, amount);
+        AnyswapV1ERC20(token).depositVault(amount, from);
+        _anySwapOut(from, token, to, amount, toChainID);
+    }
+```
+
+因为授权过多代币数量给 anyswapRouterV4 而受影响的代币, 包括最近被利用的 NUM,以及 WETH, WBNB 等, 不存在 permit() 函数但是存在 fallback的代币.
+
+### POC 复现漏洞
+
+以 WETH 为例子:
+
+[anyswapRouterV4-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/anyswapRouterV4-exp.sol)
+
+```
+forge test --contracts "./src/anyswapRouterV4-exp.sol" -vvv
+```
+
+
+
+相关链接:
+
+https://medium.com/zengo/without-permit-multichains-exploit-explained-8417e8c1639b
+
+https://blog.neptunemutual.com/taking-a-closer-look-at-the-numbers-protocol-hack/
+
 ## **ULME**
 
 ### 漏洞原因
@@ -34,7 +88,7 @@ ULME Token::buyMiner() public 函数, 可恶意用授权 USDT 的地址, 去兑�
 }
 ```
 
-### POC复现漏洞
+### POC 复现漏洞
 
 [ULME-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/ULME-exp.sol)
 
@@ -70,7 +124,7 @@ https://twitter.com/BeosinAlert/status/1584888021299916801
     }
 ```
 
-### POC复现漏洞
+### POC 复现漏洞
 
 [OlympusDAO-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/OlympusDAO-exp.sol)
 
@@ -105,7 +159,7 @@ https://twitter.com/peckshield/status/1583416829237526528
     }
 ```
 
-### POC复现漏洞
+### POC 复现漏洞
 
 [HEALTH-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/HEALTH-exp.sol)
 
@@ -135,7 +189,7 @@ StaxLPStaking 合约 migrateStake() 函数 (1)没有访问控制,任意 EOA 账�
     }
 ```
 
-### POC复现漏洞
+### POC 复现漏洞
 
 [templedao-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/templedao-exp.sol)
 
