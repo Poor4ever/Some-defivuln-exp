@@ -1,6 +1,26 @@
 ![](cover.png)
 
+## **KashiPairMediumRiskV1**
 
+### 漏洞原因
+
+调用 borrow() 借款时,使用的是未从预言机获取新的值,而是过时 `exchangeRate` 值, 而调用 liquidate() 清算时会从预言机获取新的 `exchangeRate` 值, 计算产生巨大的价格差异,从中获利. 
+
+![KashiPairMediumRiskV1_POC_RunResult](.\image\KashiPairMediumRiskV1_POC_RunResult.jpg)
+
+### POC 复现漏洞
+
+[KashiPairMediumRiskV1-exp.sol](https://github.com/Poor4ever/Some-defivuln-exp/blob/main/src/KashiPairMediumRiskV1-exp.sol)
+
+```
+forge test --contracts "./src/KashiPairMediumRiskV1-exp.sol" -vvv
+```
+
+
+
+相关链接:
+
+https://twitter.com/BlockSecTeam/status/1603633067876155393
 
 ## **anyswapRouterV4**
 
